@@ -1,4 +1,5 @@
 from tkinter import *
+# from menu import *
 import time
 from random import *
 import keyboard
@@ -14,11 +15,159 @@ tk = Tk()
 tk.geometry('1920x1080')
 canvas = Canvas(tk,width = 1920, height = 1080 ) # Fenetre principale
 canvas.pack(padx=10,pady=10)
+gameon = 1
 
-# Banques d'iamges
+
+#######################################################    Banques d'iamges #########################################################
 
 fond = PhotoImage(file="background.png")
-canvas.create_image(960, 540, image=fond)
+# Game
+plateformetop = PhotoImage(file="form.png")
+sol = PhotoImage(file="floor.png")
+
+# Page d'acceuil
+jouer = PhotoImage(file="jouer.png")
+instruction = PhotoImage(file="instruction.png")
+quitter = PhotoImage(file="quitter.png")
+stuff = PhotoImage(file="equipements.png")
+
+# Page d'instruction
+titreinstruction = PhotoImage(file="titreinstruction.png")
+voilenoir = PhotoImage(file="fondunoir.png")
+accueil = PhotoImage(file="accueil.png")
+
+#  Page de pause 
+boutonpause = PhotoImage(file="pause.png")
+pausescreen = PhotoImage(file="pausescreen.png")
+continuebutton = PhotoImage(file="continue.png")
+rejouer = PhotoImage(file="rejouer.png")
+
+# Page d'equipements
+
+titrestuff = PhotoImage(file="titrestuff.png")
+player1 = PhotoImage(file="player1.png")
+player2 = PhotoImage(file="player2.png")
+player3 = PhotoImage(file="player3.png")
+player4 = PhotoImage(file="player4.png")
+player5 = PhotoImage(file="player5.png")
+player6 = PhotoImage(file="player6.png")
+cat = PhotoImage(file="nyancatstuff.png")
+playerName = PhotoImage(file="playerName.png")
+
+
+#####################################################################################################################################
+
+#########################################  Fenetre principal #########################################
+
+def lancerjeu():
+
+    # Réinitialisation  
+    canvas.delete(ALL)
+
+    # Mise en place du fond d'écran pendant la partie
+    canvas.create_image(960, 540, image=fond)
+    
+    ## Bouton Pause ##
+    ButtonPause = Button(tk, image = boutonpause, command = PauseEcran)
+    Pause = canvas.create_image(1850, 35, image = boutonpause)
+    canvas.create_window(1850, 35, window=ButtonPause)
+
+    # jeu
+    collide()
+    control()
+    gravity()
+    draw() 
+
+
+#########################################  Page d'accueil #########################################
+
+def AcceuilPage():   
+    canvas.delete(ALL)
+    score = 0
+    canvas.create_image(960, 540, image=fond)
+    canvas.create_image(500, 850, image=jouer)
+    canvas.create_image(1650, 700, image=stuff)
+    canvas.create_image(1650, 800, image=instruction)
+    canvas.create_image(1650, 900, image=quitter)
+
+    ButtonInstruction = Button(tk, image = instruction, command = Pageinstruction)
+    canvas.create_window(1650, 800, window=ButtonInstruction)
+
+    ButtonStuff = Button(tk, image = stuff, command=PageEquipement)
+    canvas.create_window(1650, 700, window=ButtonStuff)
+
+    ButtonQuitter = Button(tk, image = quitter, command = tk.destroy)
+    canvas.create_window(1650, 900, window=ButtonQuitter)
+
+    ButtonJouer  = Button( tk, image = jouer, command = lancerjeu)
+    canvas.create_window(500, 850, window = ButtonJouer)
+
+
+#########################################  Page de Pause  #########################################
+
+def PauseEcran():
+    global gamepause, FondPause,  FondNoir, FondPauseScreen, Quitter, FondContinuerButton, FondPetitQuitter, ButtonPetitQuitter, WindowQuitter, ButtonContinuer, WindowContinuer, ButtonRejouer, WindowRejouer
+    gamepause = 1
+    FondPause = canvas.create_image(960, 540, image=fond)
+    FondNoir = canvas.create_image(960, 540, image=voilenoir)
+    FondPauseScreen = canvas.create_image(900, 450, image=pausescreen)
+    FondContinuerButton = canvas.create_image(500, 850, image=continuebutton)
+    FondPetitQuitter = canvas.create_image(125, 40, image=accueil)
+    FondQuitter = canvas.create_image(125, 40, image=accueil)
+
+    ButtonPetitQuitter = Button(tk, image = accueil, command = AcceuilPage)
+    WindowQuitter =canvas.create_window(125, 40, window=ButtonPetitQuitter)
+
+    ButtonContinuer = Button(tk, image = continuebutton, command = continuerjeu)
+    WindowContinuer =canvas.create_window(500, 850, window=ButtonContinuer)
+
+    ButtonQuitter = Button(tk, image = quitter, command = tk.destroy)
+    canvas.create_window(1200, 850, window=ButtonQuitter)
+
+
+def continuerjeu():
+    global FondPause, FondNoir, FondPauseScreen, FondRejouer, FondContinuerButton, FondPetitQuitter, WindowQuitter, ButtonContinuer, WindowContinuer, ButtonRejouer, WindowRejouer
+    canvas.delete(FondPause, FondNoir, FondPauseScreen, FondRejouer, FondContinuerButton, FondPetitQuitter, WindowQuitter, WindowContinuer, WindowRejouer)
+   
+# #######################################################     Instructions    ##############################################
+
+def Pageinstruction():
+    canvas.delete(ALL)
+    canvas.create_image(960, 540, image=fond)
+    canvas.create_image(960, 540, image=voilenoir)
+    canvas.create_image(125, 40, image=accueil)
+    canvas.create_image(960, 200, image=titreinstruction)  
+
+
+    ButtonPetitQuitter = Button(tk, image = accueil , command = AcceuilPage)
+    canvas.create_window(125, 40, window=ButtonPetitQuitter )
+
+def PageEquipement():
+    canvas.delete(ALL)
+    canvas.create_image(960, 540, image=fond)
+    canvas.create_image(960, 540, image=voilenoir)
+    canvas.create_image(125, 40, image=accueil)
+    canvas.create_image(900, 200, image=titrestuff)
+    canvas.create_image(400, 500, image=cat)
+    canvas.create_image(750, 500, image=player2)
+    canvas.create_image(1100, 500, image=player3)
+    canvas.create_image(1450, 500, image=player6)
+
+
+    canvas.create_image(400, 700, image=playerName)
+    canvas.create_image(750, 700, image=playerName)
+    canvas.create_image(1115, 700, image=playerName)
+    canvas.create_image(1465, 700, image=playerName)  
+
+
+    ## BUTTON ##
+    ButtonPetitQuitter = Button(tk, image = accueil , command = AcceuilPage)
+    canvas.create_window(125, 40, window=ButtonPetitQuitter )
+
+
+
+
+
 
 ## Gravity ##
 
@@ -74,7 +223,7 @@ canvas.create_rectangle(250,750,550,725, fill="brown")
 canvas.create_rectangle(725,550,1025,525, fill="brown")
 canvas.create_rectangle(-10,1000,1920,950, fill="blue")
 
-plateformetop = PhotoImage(file="form.png")
+
 canvas.create_image(780,535, image=plateformetop)
 canvas.create_image(900,535, image=plateformetop)
 canvas.create_image(975,535, image=plateformetop)
@@ -87,7 +236,7 @@ canvas.create_image(1255,735, image=plateformetop)
 canvas.create_image(1355,735, image=plateformetop)
 canvas.create_image(1450,735, image=plateformetop)
 
-sol = PhotoImage(file="floor.png")
+# Floor 
 canvas.create_image(1575,975, image=sol)
 canvas.create_image(925,975, image=sol)
 canvas.create_image(275,975, image=sol)
@@ -157,12 +306,14 @@ def draw():
     canvas.delete(player2.draw)
     player2.draw = canvas.create_rectangle(player2.x-10, player2.y-10, player2.x+10, player2.y+10 ,fill = "blue")
 
-def main():
-    collide()
-    control()
-    gravity()
-    draw()
-    tk.after(5, main)
+# def main():
+#     canvas.delete(ALL)
+#     collide()
+#     control()
+#     gravity()
+#     draw()
+#     tk.after(5, main)
 
-main()
+# main()
+AcceuilPage()
 tk.mainloop()
