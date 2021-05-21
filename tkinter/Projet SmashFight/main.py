@@ -62,6 +62,29 @@ def lancerjeu():
 
     # Mise en place du fond d'écran pendant la partie
     canvas.create_image(960, 540, image=fond)
+    canvas.create_rectangle(1200,750,1500,725, fill="brown")
+    canvas.create_rectangle(250,750,550,725, fill="brown")
+    canvas.create_rectangle(725,550,1025,525, fill="brown")
+    canvas.create_rectangle(-10,1000,1920,950, fill="blue")
+
+
+    canvas.create_image(780,535, image=plateformetop)
+    canvas.create_image(900,535, image=plateformetop)
+    canvas.create_image(975,535, image=plateformetop)
+
+    canvas.create_image(305,735, image=plateformetop)
+    canvas.create_image(400,735, image=plateformetop)
+    canvas.create_image(500,735, image=plateformetop)
+
+    canvas.create_image(1255,735, image=plateformetop)
+    canvas.create_image(1355,735, image=plateformetop)
+    canvas.create_image(1450,735, image=plateformetop)
+
+    # Floor 
+    canvas.create_image(1575,975, image=sol)
+    canvas.create_image(925,975, image=sol)
+    canvas.create_image(275,975, image=sol)
+
     
     ## Bouton Pause ##
     ButtonPause = Button(tk, image = boutonpause, command = PauseEcran)
@@ -69,10 +92,7 @@ def lancerjeu():
     canvas.create_window(1850, 35, window=ButtonPause)
 
     # jeu
-    collide()
-    control()
-    gravity()
-    draw() 
+    main()
 
 
 #########################################  Page d'accueil #########################################
@@ -210,28 +230,6 @@ plateform[2].cx = 1025
 plateform[2].cy = 550
 
 # On crée les plateformes
-canvas.create_rectangle(1200,750,1500,725, fill="brown")
-canvas.create_rectangle(250,750,550,725, fill="brown")
-canvas.create_rectangle(725,550,1025,525, fill="brown")
-canvas.create_rectangle(-10,1000,1920,950, fill="blue")
-
-
-canvas.create_image(780,535, image=plateformetop)
-canvas.create_image(900,535, image=plateformetop)
-canvas.create_image(975,535, image=plateformetop)
-
-canvas.create_image(305,735, image=plateformetop)
-canvas.create_image(400,735, image=plateformetop)
-canvas.create_image(500,735, image=plateformetop)
-
-canvas.create_image(1255,735, image=plateformetop)
-canvas.create_image(1355,735, image=plateformetop)
-canvas.create_image(1450,735, image=plateformetop)
-
-# Floor 
-canvas.create_image(1575,975, image=sol)
-canvas.create_image(925,975, image=sol)
-canvas.create_image(275,975, image=sol)
 
 def gravity():
     player1.vy += player1.ay
@@ -298,13 +296,12 @@ def draw():
     canvas.delete(player2.draw)
     player2.draw = canvas.create_rectangle(player2.x-10, player2.y-10, player2.x+10, player2.y+10 ,fill = "blue")
 
-# def main():
-#     canvas.delete(ALL)
-#     collide()
-#     control()
-#     gravity()
-#     draw()
-#     tk.after(5, main)
+def main():
+    collide()
+    control()
+    gravity()
+    draw()
+    tk.after(5, main)
 
 # main()
 AcceuilPage()
