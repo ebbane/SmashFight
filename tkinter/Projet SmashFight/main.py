@@ -45,12 +45,8 @@ rejouer = PhotoImage(file="rejouer.png")
 # Page d'equipements
 
 titrestuff = PhotoImage(file="titrestuff.png")
-player1 = PhotoImage(file="player1.png")
-player2 = PhotoImage(file="player2.png")
-player3 = PhotoImage(file="player3.png")
 player4 = PhotoImage(file="player4.png")
 player5 = PhotoImage(file="player5.png")
-player6 = PhotoImage(file="player6.png")
 cat = PhotoImage(file="nyancatstuff.png")
 playerName = PhotoImage(file="playerName.png")
 
@@ -118,16 +114,16 @@ def PauseEcran():
     ButtonPetitQuitter = Button(tk, image = accueil, command = AcceuilPage)
     WindowQuitter =canvas.create_window(125, 40, window=ButtonPetitQuitter)
 
-    ButtonContinuer = Button(tk, image = continuebutton, command = continuerjeu)
+    ButtonContinuer = Button(tk, image = continuebutton, )
     WindowContinuer =canvas.create_window(500, 850, window=ButtonContinuer)
 
     ButtonQuitter = Button(tk, image = quitter, command = tk.destroy)
     canvas.create_window(1200, 850, window=ButtonQuitter)
 
 
-def continuerjeu():
-    global FondPause, FondNoir, FondPauseScreen, FondRejouer, FondContinuerButton, FondPetitQuitter, WindowQuitter, ButtonContinuer, WindowContinuer, ButtonRejouer, WindowRejouer
-    canvas.delete(FondPause, FondNoir, FondPauseScreen, FondRejouer, FondContinuerButton, FondPetitQuitter, WindowQuitter, WindowContinuer, WindowRejouer)
+# def continuerjeu():
+#     global FondPause, FondNoir, FondPauseScreen, FondRejouer, FondContinuerButton, FondPetitQuitter, WindowQuitter, ButtonContinuer, WindowContinuer, ButtonRejouer, WindowRejouer
+#     canvas.delete(FondPause, FondNoir, FondPauseScreen, FondRejouer, FondContinuerButton, FondPetitQuitter, WindowQuitter, WindowContinuer, WindowRejouer)
    
 # #######################################################     Instructions    ##############################################
 
@@ -148,16 +144,12 @@ def PageEquipement():
     canvas.create_image(960, 540, image=voilenoir)
     canvas.create_image(125, 40, image=accueil)
     canvas.create_image(900, 200, image=titrestuff)
-    canvas.create_image(400, 500, image=cat)
-    canvas.create_image(750, 500, image=player2)
-    canvas.create_image(1100, 500, image=player3)
-    canvas.create_image(1450, 500, image=player6)
+    canvas.create_image(730, 500, image=player5)
+    canvas.create_image(1115, 500, image=player4)
 
 
-    canvas.create_image(400, 700, image=playerName)
-    canvas.create_image(750, 700, image=playerName)
-    canvas.create_image(1115, 700, image=playerName)
-    canvas.create_image(1465, 700, image=playerName)  
+    canvas.create_image(730, 700, image=playerName)
+    canvas.create_image(1100, 700, image=playerName)
 
 
     ## BUTTON ##
