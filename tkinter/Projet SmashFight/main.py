@@ -178,7 +178,16 @@ def PageEquipement():
     ButtonPetitQuitter = Button(tk, image = accueil , command = AcceuilPage)
     canvas.create_window(125, 40, window=ButtonPetitQuitter )
 
+# #######################################################     PAge de fin   ##############################################
 
+
+def GameOverScreen(winner):
+    canvas.delete(ALL)
+    # Fenetre principale
+    canvas.create_image(960, 540, image=fond)
+    canvas.create_image(960, 540, image=voilenoir)
+    #canvas.create_image(900, 450, image=gameover)
+    canvas.create_text(960, 450, fill="white", font="Times 150 bold", text="Winner is : " + winner)
 
 
 
@@ -202,19 +211,35 @@ class point:
         self.vx = 0
         self.vy = 0
         self.ax = 0
-        self.ay = 1
+        self.ay = 0.5
         self.draw = 0
         self.etat = 1
-        self.bullet = shoot(0)
-
+        self.bullet = [shoot(0), shoot(1), shoot(2), shoot(3), shoot(4)]
+        self.nb = 0
+        self.timer = 0
+        self.score = 0
+        self.hit = 0
+        self.hp = [PhotoImage(file="hp1.png"), PhotoImage(file="hp2.png"), PhotoImage(file="hp3.png"), PhotoImage(file="hp4.png"), PhotoImage(file="hp5.png"), PhotoImage(file="hp6.png")]
+        self.life = 3
 
 player1 = point(0)
 player1.x = 50
 skin1 = PhotoImage(file="player1.png")
-#player1=point()
+head_player1 = PhotoImage(file="head1.png")
+head_player2 = PhotoImage(file="head2.png")
 player2 = point(1)
 player2.x = 1850
 skin2 = PhotoImage(file="player2.png")
+redbullet = PhotoImage(file="redbullet.png")
+greenbullet = PhotoImage(file="greenbullet.png")
+voilenoir = PhotoImage(file="fondunoir.png")
+gameover = PhotoImage(file="gameover.png")
+
+hp_player1 = canvas.create_rectangle(0, 0, 0, 0)
+hp_player2 = canvas.create_rectangle(0, 0, 0, 0)
+life_player1 = [canvas.create_rectangle(0, 0, 0, 0), canvas.create_rectangle(0, 0, 0, 0), canvas.create_rectangle(0, 0, 0, 0)]
+life_player2 = [canvas.create_rectangle(0, 0, 0, 0), canvas.create_rectangle(0, 0, 0, 0), canvas.create_rectangle(0, 0, 0, 0)]
+
 
 class box:
     def __init__(self, name):
@@ -249,16 +274,48 @@ plateform[2].cy = 550
 
 class shoot:
     def __init__(self, name):
+        self.name = name
         self.x = 0
         self.y = 0
         self.vx = 5
-# On crée les plateformes
+        self.draw = canvas.create_oval(0, 0, 0, 0, fill = "white")
+
+player1.bullet[0].draw = canvas.create_oval(0, 0, 0, 0, fill = "white")
+player1.bullet[1].draw = canvas.create_oval(0, 0, 0, 0, fill = "white")
+player1.bullet[2].draw = canvas.create_oval(0, 0, 0, 0, fill = "white")
+player1.bullet[3].draw = canvas.create_oval(0, 0, 0, 0, fill = "white")
+player1.bullet[4].draw = canvas.create_oval(0, 0, 0, 0, fill = "white")
+player2.bullet[0].draw = canvas.create_oval(0, 0, 0, 0, fill = "white")
+player2.bullet[1].draw = canvas.create_oval(0, 0, 0, 0, fill = "white")
+player2.bullet[2].draw = canvas.create_oval(0, 0, 0, 0, fill = "white")
+player2.bullet[3].draw = canvas.create_oval(0, 0, 0, 0, fill = "white")
+player2.bullet[4].draw = canvas.create_oval(0, 0, 0, 0, fill = "white")
+
+player1.timer = time.time()
+
+# Score
+score1 = canvas.create_text(100, 725, text="0")
+score2 = canvas.create_text(1820, 725, text="0")
+
 
 def gravity():
     player1.vy += player1.ay
     player1.y += player1.vy
     player2.vy += player2.ay
     player2.y += player2.vy
+
+def animate():
+    global greenbullet, redbullet
+    for i in range(5):
+        player1.bullet[i].x += player1.bullet[i].vx
+        player2.bullet[i].x -= player2.bullet[i].vx
+
+        canvas.delete(player1.bullet[i].draw)
+        player1.bullet[i].draw = canvas.create_image(player1.bullet[i].x, player1.bullet[i].y,image=redbullet)
+
+        canvas.delete(player2.bullet[i].draw)
+        player2.bullet[i].draw = canvas.create_image(player2.bullet[i].x, player2.bullet[i].y,image=greenbullet)
+
 
 def collide():
     if player1.y >= 880:
@@ -293,54 +350,104 @@ def collide():
             player2.vy = 0
             player2.y = plateform[i].y-65
             player2.etat = 1
-        
+
+    for i in range(5):
+        if(player1.bullet[i].x-8 <= player2.x+45 and player1.bullet[i].x+8 >= player2.x-45 and player1.bullet[i].y-8 <= player2.y+67 and player1.bullet[i].y+8 >= player2.y-67):
+            player2.hit += 1
+            if(player2.hit == 5):
+                player2.hit = 0
+                player2.life -= 1
+                if(player2.life == 0):
+                    pass
+            player1.bullet[i].x = 0
+            player1.bullet[i].y = -10
+        if(player2.bullet[i].x-8 <= player1.x+45 and player2.bullet[i].x+8 >= player1.x-45 and player2.bullet[i].y-8 <= player1.y+67 and player2.bullet[i].y+8 >= player1.y-67):
+            player1.hit += 1
+            if(player1.hit == 5):
+                player1.hit = 0
+                player1.life -= 1
+                if(player1.life == 0):
+                    pass
+            player2.bullet[i].x = 0
+            player2.bullet[i].y = -10       
 
 def control():
-    if(player1.etat == 1):
-        if keyboard.is_pressed("up"):
-            player1.vy = -23
-            player1.etat = 0
-    if keyboard.is_pressed("right"):
-        player1.x += 5
-    if keyboard.is_pressed("left"):
-        player1.x -= 5
-    if keyboard.is_pressed("down"):
-        player1.y += 25
-    if keyboard.is_pressed("enter"):
-        player1.bullet.y = player1.y
-        player1.bullet.x = player1.x
 
-    
+    if(player1.etat == 1):
+        if (keyboard.is_pressed("z")):
+            player1.vy = -15
+            player1.etat = 0
+    if keyboard.is_pressed("d"):
+        player1.x += 5
+    if keyboard.is_pressed("q"):
+        player1.x -= 5
+    if keyboard.is_pressed("s"):
+        player1.y += 25
+    if (keyboard.is_pressed("space")) and (time.time()-player1.timer >= 0.35):
+        player1.bullet[player1.nb].y = player1.y
+        player1.bullet[player1.nb].x = player1.x
+        player1.nb += 1
+        player1.timer = time.time()
+        if(player1.nb == 5):
+            player1.nb = 0
+
 
     if(player2.etat == 1):
-        if (keyboard.is_pressed("z")):
-            player2.vy = -23
+        if keyboard.is_pressed("up"):
+            player2.vy = -15
             player2.etat = 0
-    if keyboard.is_pressed("d"):
+    if keyboard.is_pressed("right"):
         player2.x += 5
-    if keyboard.is_pressed("q"):
+    if keyboard.is_pressed("left"):
         player2.x -= 5
-    if keyboard.is_pressed("s"):
+    if keyboard.is_pressed("down"):
         player2.y += 25
-    if keyboard.is_pressed("space"):
-        player2.bullet.y = player2.y
-        player2.bullet.x = player2.x       
+    if (keyboard.is_pressed("enter")) and (time.time()-player2.timer >= 0.35):
+        player2.bullet[player2.nb].y = player2.y
+        player2.bullet[player2.nb].x = player2.x
+        player2.nb += 1
+        player2.timer = time.time()
+        if(player2.nb == 5):
+            player2.nb = 0
+     
 
 def draw():
-    global skin1, skin2
+    global skin1, skin2, score1, score2, hp_player1, hp_player2, life_player1, life_player2, head_player1, head_player2
     canvas.delete(player1.draw)
     player1.draw = canvas.create_image(player1.x, player1.y, image=skin1)
 
     canvas.delete(player2.draw)
     player2.draw = canvas.create_image(player2.x, player2.y, image=skin2)
 
-def main():
-    collide()
-    control()
-    gravity()
-    draw()
-    tk.after(5, main)
+    for i in range(3):
+        canvas.delete(life_player1[i])
+        canvas.delete(life_player2[i])
 
-# main()
+    for i in range(player1.life):
+        life_player1[i] = canvas.create_image(150+25*i, 150, image=head_player1)
+    for i in range(player2.life):
+        life_player2[i] = canvas.create_image(600-25*i, 150, image=head_player2)
+
+    canvas.delete(hp_player1)
+    hp_player1 = canvas.create_image(150, 100, image=player1.hp[player1.hit])
+
+    canvas.delete(hp_player2)
+    hp_player2 = canvas.create_image(500, 100, image=player2.hp[player2.hit])
+
+def main():
+    global voilenoir, gameover
+    if(player1.life == 0):
+        GameOverScreen("player2")
+    elif(player2.life == 0):
+        GameOverScreen("player1")
+    else:
+        animate()
+        collide()
+        control()
+        gravity()
+        draw()
+    tk.after(10, main)
+
+
 AcceuilPage()
 tk.mainloop()
