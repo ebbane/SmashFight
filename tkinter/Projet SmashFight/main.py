@@ -47,7 +47,6 @@ rejouer = PhotoImage(file="rejouer.png")
 titrestuff = PhotoImage(file="titrestuff.png")
 player4 = PhotoImage(file="player4.png")
 player5 = PhotoImage(file="player5.png")
-cat = PhotoImage(file="nyancatstuff.png")
 playerName = PhotoImage(file="playerName.png")
 
 
@@ -122,6 +121,9 @@ def AcceuilPage():
 #########################################  Page de Pause  #########################################
 
 def PauseEcran():
+
+    canvas.delete(ALL)
+    
     global gamepause, FondPause,  FondNoir, FondPauseScreen, Quitter, FondContinuerButton, FondPetitQuitter, ButtonPetitQuitter, WindowQuitter, ButtonContinuer, WindowContinuer, ButtonRejouer, WindowRejouer
     gamepause = 1
     FondPause = canvas.create_image(960, 540, image=fond)
