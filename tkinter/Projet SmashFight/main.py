@@ -3,6 +3,7 @@ from tkinter import *
 import time
 from random import *
 import keyboard
+from database import *
 
 
 
@@ -30,6 +31,7 @@ jouer = PhotoImage(file="jouer.png")
 instruction = PhotoImage(file="instruction.png")
 quitter = PhotoImage(file="quitter.png")
 stuff = PhotoImage(file="equipements.png")
+score = PhotoImage(file="Score.png")
 
 # Page d'instruction
 titreinstruction = PhotoImage(file="titreinstruction.png")
@@ -105,6 +107,9 @@ def AcceuilPage():
     canvas.create_image(1650, 800, image=instruction)
     canvas.create_image(1650, 900, image=quitter)
 
+    ButtonStuff = Button(tk, image = stuff, command=PageScore)
+    canvas.create_window(1650, 600, window=ButtonStuff)
+
     ButtonInstruction = Button(tk, image = instruction, command = Pageinstruction)
     canvas.create_window(1650, 800, window=ButtonInstruction)
 
@@ -160,6 +165,8 @@ def Pageinstruction():
     ButtonPetitQuitter = Button(tk, image = accueil , command = AcceuilPage)
     canvas.create_window(125, 40, window=ButtonPetitQuitter )
 
+# #######################################################     Page d'equipements    ##############################################
+
 def PageEquipement():
     canvas.delete(ALL)
     canvas.create_image(960, 540, image=fond)
@@ -178,7 +185,76 @@ def PageEquipement():
     ButtonPetitQuitter = Button(tk, image = accueil , command = AcceuilPage)
     canvas.create_window(125, 40, window=ButtonPetitQuitter )
 
-# #######################################################     PAge de fin   ##############################################
+# #######################################################     Page des scores    ##############################################
+
+def PageScore():
+    canvas.delete(ALL)
+    canvas.create_image(960, 540, image=fond)
+    canvas.create_image(960, 540, image=voilenoir)
+    canvas.create_image(125, 40, image=accueil)
+
+    
+    intro = True
+    disp()
+    try:
+        mySQLconnection = mysql.connector.connect(
+                                host="localhost",
+                                user="projetLogiciel",
+                                password="hfX5MfGPNO6Q3mD9",
+                                database="SmashFight"
+        )
+
+        sql_select_Query = "SELECT * FROM users ORDER BY score DESC"
+        cursor = mySQLconnection.cursor()
+        cursor.execute(sql_select_Query)
+        recore = cursor.fetchall()
+        rc = cursor.rowcount
+
+        print("Total number of rows in student is - ", cursor.rowcount)
+        print ("Printing each row's column values i.e.  student record")
+
+        for row in recore:
+            print(row[0],"\t",row[1],"\t""\n")
+
+        cursor.close()
+    
+    except Error as e :
+        print ("Error while connecting to MySQL", e)
+    finally:
+        #closing database connection.
+        if(mySQLconnection.is_connected()):
+            mySQLconnection.close()
+            print("MySQL connection is closed")
+    
+    canvas.create_text(960, 150, fill="white", font="Times 100 bold", text="Meilleurs joeurs : ")
+    canvas.create_text(960, 300, fill="white", font="Times 50 bold", text="Rank         Name          score")
+
+
+    while intro:      
+        font = canvas.create_text(fill="white", font="Times 20 bold")
+        if rc >= 1:
+            text = font.render("1             "+str((recore[0])[0]) +"             "    +str((recore[0])[1]) )
+            # gameDisplay.blit(text,(5,80))
+        # if rc >= 2:
+        #     text = font.render("2             "+str((recore[1])[0]) +"             "    +str((recore[1])[1]))
+        #     gameDisplay.blit(text,(5,110))
+        # if rc >= 3:
+        #     text = font.render("3             "+str((recore[2])[0]) +"             "    +str((recore[2])[1]))
+        #     gameDisplay.blit(text,(5,140))
+        # if rc >= 4:
+        #     text = font.render("4             "+str((recore[3])[0]) +"             "    +str((recore[3])[1]))
+        #     gameDisplay.blit(text,(5,170))
+        # if rc >= 5:
+        #     text = font.render("5             "+str((recore[4])[0]) +"             "    +str((recore[4])[1]))
+        #     gameDisplay.blit(text,(5,200))
+        
+
+
+    ## BUTTON ##
+    ButtonPetitQuitter = Button(tk, image = accueil , command = AcceuilPage)
+    canvas.create_window(125, 40, window=ButtonPetitQuitter )
+
+# #######################################################     Page de fin   ##############################################
 
 
 def GameOverScreen(winner):
@@ -189,6 +265,9 @@ def GameOverScreen(winner):
     #canvas.create_image(900, 450, image=gameover)
     canvas.create_text(960, 450, fill="white", font="Times 150 bold", text="Winner is : " + winner)
 
+def exi():
+    tk.destroy()
+    quit()
 
 
 
