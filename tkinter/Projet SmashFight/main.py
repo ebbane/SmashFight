@@ -5,6 +5,7 @@ import time
 from random import *
 import keyboard
 from database import *
+from highScores import Showall
 
 
 
@@ -115,7 +116,7 @@ def homePage():
     ButtonInstruction = Button(tk, bg='#406F4E', image = instructions, command = instructionsScreen)
     canvas.create_window(1500, 550, window=ButtonInstruction)
 
-    ButtonInstruction = Button(tk, bg='#07079A', image = highScores, command = instructionsScreen)
+    ButtonInstruction = Button(tk, bg='#07079A', image = highScores, command = Showall)
     canvas.create_window(1500, 700, window=ButtonInstruction)
        
 
