@@ -10,7 +10,7 @@ from constants import *
 stop = 1
 
 
-def playGame():
+def PlayGame():
 
     # Réinitialisation  
     canvas.delete(ALL)
@@ -41,7 +41,7 @@ def playGame():
 
     
     ## Bouton Pause ##
-    ButtonPause = Button(tk, image = pauseButton, command = pauseScreen)
+    ButtonPause = Button(tk, image = pauseButton, command = PauseScreen)
     Pause = canvas.create_image(1850, 35, image = pauseButton)
     canvas.create_window(1850, 35, window=ButtonPause)
 
@@ -55,16 +55,16 @@ def HomePage():
     canvas.delete(ALL)
     canvas.create_image(960, 540, image=homeBackground)
 
-    ButtonJouer  = Button( tk, bg='green', image =play, command = playGame)
+    ButtonJouer  = Button( tk, bg='green', image =play, command = PlayGame)
     canvas.create_window(500, 500, window = ButtonJouer)
 
     ButtonQuitter = Button(tk, bg='#BB0D0D', image = quit, command = tk.destroy)
     canvas.create_window(500, 650, window=ButtonQuitter)
 
-    ButtonStuff = Button(tk, bg='#406F4E',  image = equipments, command=equipmentsScreen)
+    ButtonStuff = Button(tk, bg='#406F4E',  image = equipments, command=EquipmentsScreen)
     canvas.create_window(1500, 400, window=ButtonStuff)
 
-    ButtonInstruction = Button(tk, bg='#406F4E', image = instructions, command = instructionsScreen)
+    ButtonInstruction = Button(tk, bg='#406F4E', image = instructions, command = InstructionsScreen)
     canvas.create_window(1500, 550, window=ButtonInstruction)
 
     ButtonInstruction = Button(tk, bg='#07079A', image = highScores, command = Showall)
@@ -74,14 +74,14 @@ def HomePage():
 
 #########################################  Page de Pause  #########################################
 
-def pauseScreen():
+def PauseScreen():
     global stop
     stop *= -1
 
    
 # #######################################################     Instructions    ##############################################
 
-def instructionsScreen():
+def InstructionsScreen():
     canvas.delete(ALL)
     canvas.create_image(960, 540, image=background)
     canvas.create_image(960, 540, image=blackVeil)
@@ -92,7 +92,7 @@ def instructionsScreen():
 
 # #######################################################     Equipments    ##############################################
 
-def equipmentsScreen():
+def EquipmentsScreen():
 
     canvas.delete(ALL)
     canvas.create_image(960, 540, image=background)
@@ -123,7 +123,7 @@ def GameOverScreen(winner):
     ButtonQuitter = Button(tk, bg='#BB0D0D', image = quit, command = tk.destroy)
     canvas.create_window(500, 650, window=ButtonQuitter)
 
-    ButtonRegister = Button(tk, command = Register)
+    ButtonRegister = Button(tk,bg='#07079A', image = records)
     canvas.create_window(800, 650, window=ButtonRegister)
 
 
