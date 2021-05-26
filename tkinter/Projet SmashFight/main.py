@@ -4,55 +4,11 @@ import os
 from random import *
 import keyboard
 from highScores import *
-# from test import *
+from constants import *
 
 
-#######################################################    Principal #########################################################
-
-
-#On cree une fenêtre et un canevas générale:
-
-tk = Tk()
-tk.geometry('1920x1080')
-canvas = Canvas(tk,width = 1920, height = 1080 ) # Fenetre principale
-canvas.pack(padx=10,pady=10)
 stop = 1
 
-####################################################### Pictures referencies #########################################################
-
-background = PhotoImage(file="images/background.png") 
-
-# Game
-plateformetop = PhotoImage(file="images/form.png")
-sol = PhotoImage(file="images/floor.png")
-
-# Page d'acceuil
-homeBackground = PhotoImage(file="images/back.png")
-play = PhotoImage(file="images/play.png")
-instructions = PhotoImage(file="images/instructions.png")
-quit = PhotoImage(file="images/quit.png")
-equipments = PhotoImage(file="images/equipments.png")
-highScores = PhotoImage(file="images/High Scores.png")
-
-# Page d'instruction
-blackVeil = PhotoImage(file="images/fondunoir.png")
-home = PhotoImage(file="images/Home.png")
-
-
-# Page d'equipements
-
-player4 = PhotoImage(file="images/player4.png")
-player5 = PhotoImage(file="images/player5.png")
-playerName = PhotoImage(file="images/John.png")
-playerName2 = PhotoImage(file="images/Maurice.png")
-
-# Game over Screen
-records = PhotoImage(file="images/Record.png")
-
-
-#####################################################################################################################################
-
-#########################################  Fenetre principal #########################################
 
 def playGame():
 
@@ -95,7 +51,7 @@ def playGame():
 
 #########################################  Page d'accueil #########################################
 
-def homePage():   
+def HomePage():   
     canvas.delete(ALL)
     canvas.create_image(960, 540, image=homeBackground)
 
@@ -131,7 +87,7 @@ def instructionsScreen():
     canvas.create_image(960, 540, image=blackVeil)
     canvas.create_image(960, 200, image=instructions)  
 
-    HomeButton = Button(tk, image = home , command = homePage)
+    HomeButton = Button(tk, image = home , command = HomePage)
     canvas.create_window(150, 60, window=HomeButton )
 
 # #######################################################     Equipments    ##############################################
@@ -150,7 +106,7 @@ def equipmentsScreen():
 
 
     ## BUTTON ##
-    HomeButton = Button(tk, image = home , command = homePage)
+    HomeButton = Button(tk, image = home , command = HomePage)
     canvas.create_window(150, 60, window=HomeButton )
 
 
@@ -203,14 +159,10 @@ class point:
 
 player1 = point(0)
 player1.x = 50
-skin1 = PhotoImage(file="images/player1.png")
-head_player1 = PhotoImage(file="images/head1.png")
-head_player2 = PhotoImage(file="images/head2.png")
+
 player2 = point(1)
 player2.x = 1850
-skin2 = PhotoImage(file="images/player2.png")
-redbullet = PhotoImage(file="images/redbullet.png")
-greenbullet = PhotoImage(file="images/greenbullet.png")
+
 
 hp_player1 = canvas.create_rectangle(0, 0, 0, 0)
 hp_player2 = canvas.create_rectangle(0, 0, 0, 0)
@@ -426,5 +378,5 @@ def main():
             draw()
     tk.after(10, main)
 
-homePage()
+HomePage()
 tk.mainloop()
