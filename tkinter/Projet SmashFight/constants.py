@@ -38,8 +38,10 @@ playerName2 = PhotoImage(file="images/Maurice.png")
 
 # Game over Screen
 records = PhotoImage(file="images/Record.png")
-playerOne = PhotoImage(file="images/playerOne.png")
-playerTwo = PhotoImage(file="images/playerTwo.png")
+winner = PhotoImage(file="images/winner.png")
+sentence = PhotoImage(file="images/order.png")
+save = PhotoImage(file="images/save.png")
+littleQuit = PhotoImage(file="images/littleQuit.png")
 
 # Player 1
 skin1 = PhotoImage(file="images/player1.png")

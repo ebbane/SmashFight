@@ -5,13 +5,26 @@ from random import *
 import keyboard
 from highScores import *
 from constants import *
+import numpy as np
 
 
 stop = 1
+timer = 0
+begin = time.time()
+fin = time.time()
 
+
+mydb=mysql.connector.connect(
+    host="localhost",
+    user="projetLogiciel",
+    password="hfX5MfGPNO6Q3mD9",
+    database="SmashFight"
+)
+cursor=mydb.cursor()
 
 def PlayGame():
-
+    global begin
+    begin = time.time()
     # Réinitialisation  
     canvas.delete(ALL)
 
@@ -39,7 +52,6 @@ def PlayGame():
     canvas.create_image(1575,975, image=sol)
     canvas.create_image(925,975, image=sol)
 
-    
     ## Bouton Pause ##
     pauseBtn = Button(tk, image = pauseButton, command = PauseScreen)
     canvas.create_window(1850, 35, window=pauseBtn)
@@ -50,7 +62,13 @@ def PlayGame():
 
 #########################################  Page d'accueil #########################################
 
-def HomePage():   
+def HomePage():
+    player1.life = 3
+    player2.life = 3
+    player1.hit = 0
+    player2.hit = 0
+    player1.x = 25
+    player2.x = 1875
     canvas.delete(ALL)
     canvas.create_image(960, 540, image=homeBackground)
 
@@ -109,22 +127,95 @@ def EquipmentsScreen():
     canvas.create_window(150, 60, window=HomeButton )
 
 
+def sigmoid(x):
+    return(1/(1+np.exp(-0.1*x)))
+
 # #######################################################     Page de fin   ##############################################
 
 
-def GameOverScreen(winner):
+def GameOver (winner):
+    global begin, fin
     canvas.delete(ALL)
 
     canvas.create_image(960, 540, image=background)
     canvas.create_image(960, 540, image=blackVeil)
-    canvas.create_text(960, 450, fill="white", font="Times 100 bold", text="Winner is : " + winner)
-
+    canvas.create_text(960, 250, fill="white", font="Times 100 bold", text="Winner is : " + winner)
+    canvas.create_text(960, 400, fill="white", font="Times 50 bold", text="Score : " + str(((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/10))
+    
     ButtonQuitter = Button(tk, bg='#BB0D0D', image = quit, command = tk.destroy)
     canvas.create_window(500, 650, window=ButtonQuitter)
 
-    # ButtonRegister = Button(tk,bg='#07079A', image = records)
-    # canvas.create_window(500, 900, window=ButtonRegister)
+    ButtonRegister = Button(tk, bg='#07079A', image = records, command = Records)
+    canvas.create_window(1350, 650, window=ButtonRegister)
 
+    tk.button()
+
+
+def Records():
+
+    canvas.delete(ALL)
+    name = StringVar()
+    HomeButton = Button(tk, image = home , command = HomePage)
+    canvas.create_window(150, 60, window=HomeButton )
+
+    score = ((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(time.time()-begin))/10
+    canvas.create_image(960, 540, image=background)
+    canvas.create_image(960, 540, image=blackVeil)
+
+    canvas.create_image(900, 200, image=sentence)
+
+    winnerName = Entry(tk, font="Times 50", textvariable=name)
+    canvas.create_window(900, 400, window=winnerName)
+
+    ButtonSave = Button(tk, bg='#07079A', image = save, command=lambda : Register(winnerName.get(), score))
+    canvas.create_window(900, 550, window=ButtonSave)
+
+    ButtonQuit = Button(tk, bg='#BB0D0D', image = littleQuit, command=tk.destroy)
+    canvas.create_window(900, 850, window=ButtonQuit)
+
+    ButtonScores = Button(tk, bg='green', image = highScores, command = Showall)
+    canvas.create_window(900, 700, window=ButtonScores)
+
+
+
+def Register(winnerName, scorePlayer):
+    name=winnerName
+    print(name)
+    score = scorePlayer
+    print(score)
+    dbname=""
+    Select="select name from users where name='%s'" %(name)
+    print(Select)
+    cursor.execute(Select)
+    result=cursor.fetchall()
+    for i in result:
+        dbname=i[0]
+    if(name == dbname):
+        messagebox.askokcancel("Information","Record Already exists. We will do an update")
+        Update(name)
+    else:    
+        Insert="Insert into users(name,score) values('%s','%s')" %(name,score)
+        cursor.execute(Insert)
+        mydb.commit()
+        messagebox.showinfo("Information","Saved ! ")
+        
+      
+
+def Update(name):
+
+    scorePlayer = ((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(time.time()-begin))/10
+    score= "select score from users where name='%s'" %(name)
+    cursor.execute(score)
+    scoreBefore = cursor.fetchone()
+
+    scoreFinal = int(scoreBefore[0]) + int(scorePlayer) 
+   
+    Update="Update users set score='%s' where name='%s'" %(scoreFinal,name)
+    cursor.execute(Update)
+    mydb.commit()
+    messagebox.showinfo("Information","Score Update")
+
+    
 
 # shoot #
 
@@ -340,7 +431,7 @@ def control():
      
 
 def draw():
-    global skin1, skin2, score1, score2, hp_player1, hp_player2, life_player1, life_player2, head_player1, head_player2
+    global skin1, skin2, score1, score2, hp_player1, hp_player2, life_player1, life_player2, head_player1, head_player2, timer, fin
     canvas.delete(player1.draw)
     player1.draw = canvas.create_image(player1.x, player1.y, image=skin1)
 
@@ -352,22 +443,26 @@ def draw():
         canvas.delete(life_player2[i])
 
     for i in range(player1.life):
-        life_player1[i] = canvas.create_image(150+25*i, 150, image=head_player1)
+        life_player1[i] = canvas.create_image(45+25*i, 150, image=head_player1)
     for i in range(player2.life):
-        life_player2[i] = canvas.create_image(600-25*i, 150, image=head_player2)
+        life_player2[i] = canvas.create_image(1855-25*i, 150, image=head_player2)
 
     canvas.delete(hp_player1)
     hp_player1 = canvas.create_image(150, 100, image=player1.hp[player1.hit])
 
     canvas.delete(hp_player2)
-    hp_player2 = canvas.create_image(500, 100, image=player2.hp[player2.hit])
+    hp_player2 = canvas.create_image(1750, 100, image=player2.hp[player2.hit])
+
+    canvas.delete(timer)
+    timer = canvas.create_text(960, 100, font="Times, 50", text=str(int(time.time()-begin)), fill="white")
+    fin = time.time()
 
 def main():
     global blackVeil, stop
     if(player1.life == 0):
-        GameOverScreen("player2")
+        GameOver("player2")
     elif(player2.life == 0):
-        GameOverScreen("player1")
+        GameOver("player1")
     else:
         if(stop == 1):
             animate()

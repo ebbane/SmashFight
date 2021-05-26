@@ -2,6 +2,7 @@ from tkinter.ttk import *
 from tkinter import *
 import mysql.connector
 from tkinter import messagebox
+from constants import *
 
 
 mydb=mysql.connector.connect(
@@ -14,21 +15,19 @@ mycursor=mydb.cursor()
 
 
 
-def Records()
+def Records(scorePlayer):
 
-    canvas.create_image(900, 150, image=playerOne)
-    canvas.create_image(900, 300, image=playerTwo)
-    p1=Entry(tk,width=100,borderwidth=8)
-    p1.grid(row=0,column=1)
-    # p2=Entry(tk,width=200,borderwidth=8)
-    # p2.grid(row=1,column=1)
+    canvas.delete(ALL)
+
+    canvas.create_image(960, 540, image=background)
+    canvas.create_image(960, 540, image=blackVeil)
+
+    canvas.create_image(900, 150, image=winner)
+
+    # p1=Entry(tk,width=100,borderwidth=8)
+    # p1.grid(row=0,column=1)
 
 
-
-
-
-
-scorePlayer = 200
 
 def Register(scorePlayer):
     name=p1.get()
@@ -67,6 +66,4 @@ def Update(name):
     messagebox.showinfo("Score Update")
 
 
-button1=Button(tk,text="Register",width=10,height=2,command=Register).grid(row=7,column=0)
-button3=Button(tk,text="Update",width=10,height=2,command=Update).grid(row=7,column=3)
 # tk.mainloop()
