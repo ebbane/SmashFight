@@ -1,3 +1,4 @@
+# On importe Tkinter pour l'interface graphique
 from tkinter import *
 # from menu import *
 import time
@@ -19,51 +20,50 @@ canvas.pack(padx=10,pady=10)
 gameon = 1
 
 
-#######################################################    Banques d'iamges #########################################################
-background = PhotoImage(file="back.png")
-fond = PhotoImage(file="background.png")
+####################################################### Pictures referencies #########################################################
+
+background = PhotoImage(file="background.png") 
+
 # Game
 plateformetop = PhotoImage(file="form.png")
 sol = PhotoImage(file="floor.png")
 
 # Page d'acceuil
-jouer = PhotoImage(file="jouer.png")
-instruction = PhotoImage(file="instruction.png")
-quitter = PhotoImage(file="quitter.png")
-stuff = PhotoImage(file="equipements.png")
-score = PhotoImage(file="Score.png")
+homeBackground = PhotoImage(file="back.png")
+play = PhotoImage(file="play.png")
+instructions = PhotoImage(file="instructions.png")
+quit = PhotoImage(file="quit.png")
 equipments = PhotoImage(file="equipments.png")
+highScores = PhotoImage(file="High Scores.png")
 
 # Page d'instruction
-titreinstruction = PhotoImage(file="titreinstruction.png")
-voilenoir = PhotoImage(file="fondunoir.png")
-accueil = PhotoImage(file="accueil.png")
+blackVeil = PhotoImage(file="fondunoir.png")
+home = PhotoImage(file="Home.png")
 
 #  Page de pause 
-boutonpause = PhotoImage(file="pause.png")
-pausescreen = PhotoImage(file="pausescreen.png")
-continuebutton = PhotoImage(file="continue.png")
-rejouer = PhotoImage(file="rejouer.png")
+pauseButton = PhotoImage(file="pauseBtn.png")
+pause = PhotoImage(file="pause.png")
+resume = PhotoImage(file="resume.png")
 
 # Page d'equipements
 
-titrestuff = PhotoImage(file="titrestuff.png")
 player4 = PhotoImage(file="player4.png")
 player5 = PhotoImage(file="player5.png")
-playerName = PhotoImage(file="playerName.png")
+playerName = PhotoImage(file="John.png")
+playerName2 = PhotoImage(file="Maurice.png")
 
 
 #####################################################################################################################################
 
 #########################################  Fenetre principal #########################################
 
-def lancerjeu():
+def playGame():
 
     # Réinitialisation  
     canvas.delete(ALL)
 
     # Mise en place du fond d'écran pendant la partie
-    canvas.create_image(960, 540, image=fond)
+    canvas.create_image(960, 540, image=background)
     canvas.create_rectangle(1200,750,1500,725, fill="brown")
     canvas.create_rectangle(250,750,550,725, fill="brown")
     canvas.create_rectangle(725,550,1025,525, fill="brown")
@@ -85,12 +85,11 @@ def lancerjeu():
     # Floor 
     canvas.create_image(1575,975, image=sol)
     canvas.create_image(925,975, image=sol)
-    canvas.create_image(275,975, image=sol)
 
     
     ## Bouton Pause ##
-    ButtonPause = Button(tk, image = boutonpause, command = PauseEcran)
-    Pause = canvas.create_image(1850, 35, image = boutonpause)
+    ButtonPause = Button(tk, image = pauseButton, command = pauseScreen)
+    Pause = canvas.create_image(1850, 35, image = pauseButton)
     canvas.create_window(1850, 35, window=ButtonPause)
 
     # jeu
@@ -99,50 +98,48 @@ def lancerjeu():
 
 #########################################  Page d'accueil #########################################
 
-def AcceuilPage():   
+def homePage():   
     canvas.delete(ALL)
     score = 0
-    canvas.create_image(960, 540, image=background)
+    canvas.create_image(960, 540, image=homeBackground)
 
-    ButtonStuff = Button(tk, command=PageScore)
-    canvas.create_window(1650, 600, window=ButtonStuff)
+    ButtonJouer  = Button( tk, bg='green', image =play, command = playGame)
+    canvas.create_window(500, 500, window = ButtonJouer)
 
-    ButtonInstruction = Button(tk, command = Pageinstruction)
-    canvas.create_window(1650, 800, window=ButtonInstruction)
+    ButtonQuitter = Button(tk, bg='#BB0D0D', image = quit, command = tk.destroy)
+    canvas.create_window(500, 650, window=ButtonQuitter)
 
-    ButtonStuff = Button(tk, command=PageEquipement)
-    canvas.create_window(1600, 700, window=ButtonStuff)
+    ButtonStuff = Button(tk, bg='#406F4E',  image = equipments, command=equipmentsScreen)
+    canvas.create_window(1500, 400, window=ButtonStuff)
 
-    ButtonQuitter = Button(tk, command = tk.destroy)
-    canvas.create_window(1650, 900, window=ButtonQuitter)
+    ButtonInstruction = Button(tk, bg='#406F4E', image = instructions, command = instructionsScreen)
+    canvas.create_window(1500, 550, window=ButtonInstruction)
 
-    ButtonJouer  = Button( tk, command = lancerjeu)
-    canvas.create_window(500, 850, window = ButtonJouer)
+    ButtonInstruction = Button(tk, bg='#07079A', image = highScores, command = instructionsScreen)
+    canvas.create_window(1500, 700, window=ButtonInstruction)
+       
 
 
 #########################################  Page de Pause  #########################################
 
-def PauseEcran():
-
+def pauseScreen():
     canvas.delete(ALL)
-    
-    global gamepause, FondPause,  FondNoir, FondPauseScreen, Quitter, FondContinuerButton, FondPetitQuitter, ButtonPetitQuitter, WindowQuitter, ButtonContinuer, WindowContinuer, ButtonRejouer, WindowRejouer
-    gamepause = 1
-    FondPause = canvas.create_image(960, 540, image=fond)
-    FondNoir = canvas.create_image(960, 540, image=voilenoir)
-    FondPauseScreen = canvas.create_image(900, 450, image=pausescreen)
-    FondContinuerButton = canvas.create_image(500, 850, image=continuebutton)
-    FondPetitQuitter = canvas.create_image(125, 40, image=accueil)
-    FondQuitter = canvas.create_image(125, 40, image=accueil)
+    # canvas.delete(ALL)
+    # gamepause = 1
 
-    ButtonPetitQuitter = Button(tk, image = accueil, command = AcceuilPage)
-    WindowQuitter =canvas.create_window(125, 40, window=ButtonPetitQuitter)
+    # canvas.create_image(960, 540, image=homeBackground) 
+    # canvas.create_image(960, 540, image=blackVeil)
+    # canvas.create_image(960, 540, image=pause)
 
-    ButtonContinuer = Button(tk, image = continuebutton, )
-    WindowContinuer =canvas.create_window(500, 850, window=ButtonContinuer)
 
-    ButtonQuitter = Button(tk, image = quitter, command = tk.destroy)
-    canvas.create_window(1200, 850, window=ButtonQuitter)
+    # homePage = Button(tk, image = home, command = homePage)
+    # canvas.create_window(125, 40, window=homePage)
+
+    # resumeButton = Button(tk, image = resume, )
+    # canvas.create_window(500, 850, window=resumeButton)
+
+    # quitButton = Button(tk, image = quit, command = tk.destroy)
+    # canvas.create_window(1200, 850, window=quitButton)
 
 
 # def continuerjeu():
@@ -151,105 +148,33 @@ def PauseEcran():
    
 # #######################################################     Instructions    ##############################################
 
-def Pageinstruction():
+def instructionsScreen():
     canvas.delete(ALL)
-    canvas.create_image(960, 540, image=fond)
-    canvas.create_image(960, 540, image=voilenoir)
-    canvas.create_image(125, 40, image=accueil)
-    canvas.create_image(960, 200, image=titreinstruction)  
+    canvas.create_image(960, 540, image=background)
+    canvas.create_image(960, 540, image=blackVeil)
+    canvas.create_image(960, 200, image=instructions)  
 
 
-    ButtonPetitQuitter = Button(tk, image = accueil , command = AcceuilPage)
-    canvas.create_window(125, 40, window=ButtonPetitQuitter )
+    ButtonPetitQuitter = Button(tk, image = home , command = homePage)
+    canvas.create_window(130, 50, window=ButtonPetitQuitter )
 
-# #######################################################     Page d'equipements    ##############################################
-
-def PageEquipement():
+def equipmentsScreen():
     canvas.delete(ALL)
-    canvas.create_image(960, 540, image=fond)
-    canvas.create_image(960, 540, image=voilenoir)
-    canvas.create_image(125, 40, image=accueil)
-    canvas.create_image(900, 200, image=titrestuff)
+    canvas.create_image(960, 540, image=background)
+    canvas.create_image(960, 540, image=blackVeil)
+    canvas.create_image(900, 200, image=equipments)
     canvas.create_image(730, 500, image=player5)
     canvas.create_image(1115, 500, image=player4)
 
 
     canvas.create_image(730, 700, image=playerName)
-    canvas.create_image(1100, 700, image=playerName)
+    canvas.create_image(1100, 700, image=playerName2)
 
 
     ## BUTTON ##
-    ButtonPetitQuitter = Button(tk, image = accueil , command = AcceuilPage)
+    ButtonPetitQuitter = Button(tk, image = home , command = homePage)
     canvas.create_window(125, 40, window=ButtonPetitQuitter )
 
-# #######################################################     Page des scores    ##############################################
-
-def PageScore():
-    canvas.delete(ALL)
-    canvas.create_image(960, 540, image=fond)
-    canvas.create_image(960, 540, image=voilenoir)
-    canvas.create_image(125, 40, image=accueil)
-
-    
-    intro = True
-    disp()
-    try:
-        mySQLconnection = mysql.connector.connect(
-                                host="localhost",
-                                user="projetLogiciel",
-                                password="hfX5MfGPNO6Q3mD9",
-                                database="SmashFight"
-        )
-
-        sql_select_Query = "SELECT * FROM users ORDER BY score DESC"
-        cursor = mySQLconnection.cursor()
-        cursor.execute(sql_select_Query)
-        recore = cursor.fetchall()
-        rc = cursor.rowcount
-
-        print("Total number of rows in student is - ", cursor.rowcount)
-        print ("Printing each row's column values i.e.  student record")
-
-        for row in recore:
-            print(row[0],"\t",row[1],"\t""\n")
-
-        cursor.close()
-    
-    except Error as e :
-        print ("Error while connecting to MySQL", e)
-    finally:
-        #closing database connection.
-        if(mySQLconnection.is_connected()):
-            mySQLconnection.close()
-            print("MySQL connection is closed")
-    
-    canvas.create_text(960, 150, fill="white", font="Times 100 bold", text="Meilleurs joeurs : ")
-    canvas.create_text(960, 300, fill="white", font="Times 50 bold", text="Rank         Name          score")
-
-
-    while intro:      
-        font = canvas.create_text(fill="white", font="Times 20 bold")
-        if rc >= 1:
-            text = font.render("1             "+str((recore[0])[0]) +"             "    +str((recore[0])[1]) )
-            # gameDisplay.blit(text,(5,80))
-        # if rc >= 2:
-        #     text = font.render("2             "+str((recore[1])[0]) +"             "    +str((recore[1])[1]))
-        #     gameDisplay.blit(text,(5,110))
-        # if rc >= 3:
-        #     text = font.render("3             "+str((recore[2])[0]) +"             "    +str((recore[2])[1]))
-        #     gameDisplay.blit(text,(5,140))
-        # if rc >= 4:
-        #     text = font.render("4             "+str((recore[3])[0]) +"             "    +str((recore[3])[1]))
-        #     gameDisplay.blit(text,(5,170))
-        # if rc >= 5:
-        #     text = font.render("5             "+str((recore[4])[0]) +"             "    +str((recore[4])[1]))
-        #     gameDisplay.blit(text,(5,200))
-        
-
-
-    ## BUTTON ##
-    ButtonPetitQuitter = Button(tk, image = accueil , command = AcceuilPage)
-    canvas.create_window(125, 40, window=ButtonPetitQuitter )
 
 # #######################################################     Page de fin   ##############################################
 
@@ -257,8 +182,8 @@ def PageScore():
 def GameOverScreen(winner):
     canvas.delete(ALL)
     # Fenetre principale
-    canvas.create_image(960, 540, image=fond)
-    canvas.create_image(960, 540, image=voilenoir)
+    canvas.create_image(960, 540, image=background)
+    canvas.create_image(960, 540, image=blackVeil)
     #canvas.create_image(900, 450, image=gameover)
     canvas.create_text(960, 450, fill="white", font="Times 150 bold", text="Winner is : " + winner)
 
@@ -310,8 +235,6 @@ player2.x = 1850
 skin2 = PhotoImage(file="player2.png")
 redbullet = PhotoImage(file="redbullet.png")
 greenbullet = PhotoImage(file="greenbullet.png")
-voilenoir = PhotoImage(file="fondunoir.png")
-gameover = PhotoImage(file="gameover.png")
 
 hp_player1 = canvas.create_rectangle(0, 0, 0, 0)
 hp_player2 = canvas.create_rectangle(0, 0, 0, 0)
@@ -513,7 +436,7 @@ def draw():
     hp_player2 = canvas.create_image(500, 100, image=player2.hp[player2.hit])
 
 def main():
-    global voilenoir, gameover
+    global blackVeil
     if(player1.life == 0):
         GameOverScreen("player2")
     elif(player2.life == 0):
@@ -527,5 +450,5 @@ def main():
     tk.after(10, main)
 
 
-AcceuilPage()
+homePage()
 tk.mainloop()
