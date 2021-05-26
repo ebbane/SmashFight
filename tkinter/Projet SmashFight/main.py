@@ -33,6 +33,7 @@ play = PhotoImage(file="play.png")
 instructions = PhotoImage(file="instructions.png")
 quit = PhotoImage(file="quit.png")
 equipments = PhotoImage(file="equipments.png")
+highScores = PhotoImage(file="High Scores.png")
 
 # Page d'instruction
 blackVeil = PhotoImage(file="fondunoir.png")
@@ -108,10 +109,13 @@ def homePage():
     canvas.create_window(500, 650, window=ButtonQuitter)
 
     ButtonStuff = Button(tk, bg='#406F4E',  image = equipments, command=equipmentsScreen)
-    canvas.create_window(1500, 500, window=ButtonStuff)
+    canvas.create_window(1500, 400, window=ButtonStuff)
 
     ButtonInstruction = Button(tk, bg='#406F4E', image = instructions, command = instructionsScreen)
-    canvas.create_window(1500, 650, window=ButtonInstruction)
+    canvas.create_window(1500, 550, window=ButtonInstruction)
+
+    ButtonInstruction = Button(tk, bg='#07079A', image = highScores, command = instructionsScreen)
+    canvas.create_window(1500, 700, window=ButtonInstruction)
        
 
 
