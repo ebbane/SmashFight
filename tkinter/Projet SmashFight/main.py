@@ -20,7 +20,7 @@ gameon = 1
 
 
 #######################################################    Banques d'iamges #########################################################
-
+background = PhotoImage(file="back.png")
 fond = PhotoImage(file="background.png")
 # Game
 plateformetop = PhotoImage(file="form.png")
@@ -32,6 +32,7 @@ instruction = PhotoImage(file="instruction.png")
 quitter = PhotoImage(file="quitter.png")
 stuff = PhotoImage(file="equipements.png")
 score = PhotoImage(file="Score.png")
+equipments = PhotoImage(file="equipments.png")
 
 # Page d'instruction
 titreinstruction = PhotoImage(file="titreinstruction.png")
@@ -101,25 +102,21 @@ def lancerjeu():
 def AcceuilPage():   
     canvas.delete(ALL)
     score = 0
-    canvas.create_image(960, 540, image=fond)
-    canvas.create_image(500, 850, image=jouer)
-    canvas.create_image(1650, 700, image=stuff)
-    canvas.create_image(1650, 800, image=instruction)
-    canvas.create_image(1650, 900, image=quitter)
+    canvas.create_image(960, 540, image=background)
 
-    ButtonStuff = Button(tk, image = stuff, command=PageScore)
+    ButtonStuff = Button(tk, command=PageScore)
     canvas.create_window(1650, 600, window=ButtonStuff)
 
-    ButtonInstruction = Button(tk, image = instruction, command = Pageinstruction)
+    ButtonInstruction = Button(tk, command = Pageinstruction)
     canvas.create_window(1650, 800, window=ButtonInstruction)
 
-    ButtonStuff = Button(tk, image = stuff, command=PageEquipement)
-    canvas.create_window(1650, 700, window=ButtonStuff)
+    ButtonStuff = Button(tk, command=PageEquipement)
+    canvas.create_window(1600, 700, window=ButtonStuff)
 
-    ButtonQuitter = Button(tk, image = quitter, command = tk.destroy)
+    ButtonQuitter = Button(tk, command = tk.destroy)
     canvas.create_window(1650, 900, window=ButtonQuitter)
 
-    ButtonJouer  = Button( tk, image = jouer, command = lancerjeu)
+    ButtonJouer  = Button( tk, command = lancerjeu)
     canvas.create_window(500, 850, window = ButtonJouer)
 
 
@@ -264,6 +261,8 @@ def GameOverScreen(winner):
     canvas.create_image(960, 540, image=voilenoir)
     #canvas.create_image(900, 450, image=gameover)
     canvas.create_text(960, 450, fill="white", font="Times 150 bold", text="Winner is : " + winner)
+
+    
 
 def exi():
     tk.destroy()
