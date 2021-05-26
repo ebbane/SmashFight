@@ -134,7 +134,7 @@ def pauseScreen():
 
 
     # homePage = Button(tk, image = home, command = homePage)
-    # canvas.create_window(125, 40, window=homePage)
+    # canvas.create_window(150, 60, window=homePage)
 
     # resumeButton = Button(tk, image = resume, )
     # canvas.create_window(500, 850, window=resumeButton)
@@ -157,7 +157,7 @@ def instructionsScreen():
 
 
     ButtonPetitQuitter = Button(tk, image = home , command = homePage)
-    canvas.create_window(130, 50, window=ButtonPetitQuitter )
+    canvas.create_window(150, 60, window=ButtonPetitQuitter )
 
 def equipmentsScreen():
     canvas.delete(ALL)
@@ -174,7 +174,7 @@ def equipmentsScreen():
 
     ## BUTTON ##
     ButtonPetitQuitter = Button(tk, image = home , command = homePage)
-    canvas.create_window(125, 40, window=ButtonPetitQuitter )
+    canvas.create_window(150, 60, window=ButtonPetitQuitter )
 
 
 # #######################################################     Page de fin   ##############################################
