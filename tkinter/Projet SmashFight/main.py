@@ -41,9 +41,8 @@ def PlayGame():
 
     
     ## Bouton Pause ##
-    ButtonPause = Button(tk, image = pauseButton, command = PauseScreen)
-    Pause = canvas.create_image(1850, 35, image = pauseButton)
-    canvas.create_window(1850, 35, window=ButtonPause)
+    pauseBtn = Button(tk, image = pauseButton, command = PauseScreen)
+    canvas.create_window(1850, 35, window=pauseBtn)
 
     # jeu
     main()
@@ -118,13 +117,13 @@ def GameOverScreen(winner):
 
     canvas.create_image(960, 540, image=background)
     canvas.create_image(960, 540, image=blackVeil)
-    canvas.create_text(960, 450, fill="white", font="Times 150 bold", text="Winner is : " + winner)
+    canvas.create_text(960, 450, fill="white", font="Times 100 bold", text="Winner is : " + winner)
 
     ButtonQuitter = Button(tk, bg='#BB0D0D', image = quit, command = tk.destroy)
     canvas.create_window(500, 650, window=ButtonQuitter)
 
-    ButtonRegister = Button(tk,bg='#07079A', image = records)
-    canvas.create_window(800, 650, window=ButtonRegister)
+    # ButtonRegister = Button(tk,bg='#07079A', image = records)
+    # canvas.create_window(500, 900, window=ButtonRegister)
 
 
 # shoot #

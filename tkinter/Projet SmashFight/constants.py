@@ -14,6 +14,7 @@ background = PhotoImage(file="images/background.png")
 # Game
 plateformetop = PhotoImage(file="images/form.png")
 sol = PhotoImage(file="images/floor.png")
+pauseButton = PhotoImage(file="images/pauseBtn.png")
 
 # Page d'acceuil
 homeBackground = PhotoImage(file="images/back.png")

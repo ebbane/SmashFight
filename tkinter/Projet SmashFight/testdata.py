@@ -42,7 +42,7 @@ def Register(scorePlayer):
         messagebox.askokcancel("Information","Record Already exists")
         Update(name)
     else:
-        Insert="Insert into users(name,score,) values(%s,%s)"
+        Insert="Insert into users(name,score) values('%s','%s')"
         score= "select score from users where name='%s'" %(name) + scorePlayer
         
         if(score !=""):
