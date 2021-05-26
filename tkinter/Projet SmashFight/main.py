@@ -21,7 +21,7 @@ gameon = 1
 
 ####################################################### Pictures referencies #########################################################
 
-background = PhotoImage(file="background.png")
+background = PhotoImage(file="background.png") 
 
 # Game
 plateformetop = PhotoImage(file="form.png")
