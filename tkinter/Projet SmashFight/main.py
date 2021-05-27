@@ -6,6 +6,7 @@ import keyboard
 from highScores import *
 from constants import *
 import numpy as np
+from players import * 
 
 
 stop = 1
@@ -140,7 +141,8 @@ def GameOver (winner):
     canvas.create_image(960, 540, image=background)
     canvas.create_image(960, 540, image=blackVeil)
     canvas.create_text(960, 250, fill="white", font="Times 100 bold", text="Winner is : " + winner)
-    canvas.create_text(960, 400, fill="white", font="Times 50 bold", text="Score : " + str(((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/10))
+    canvas.create_text(960, 400, fill="white", font="Times 50 bold", text="Score : " + str((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit))
+    # canvas.create_text(960, 400, fill="white", font="Times 50 bold", text="Score : " + str(((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/10))
     
     ButtonQuitter = Button(tk, bg='#BB0D0D', image = quit, command = tk.destroy)
     canvas.create_window(500, 650, window=ButtonQuitter)
@@ -158,7 +160,7 @@ def Records():
     HomeButton = Button(tk, image = home , command = HomePage)
     canvas.create_window(150, 60, window=HomeButton )
 
-    score = ((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(time.time()-begin))/10
+    score = ((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)
     canvas.create_image(960, 540, image=background)
     canvas.create_image(960, 540, image=blackVeil)
 
@@ -203,7 +205,7 @@ def Register(winnerName, scorePlayer):
 
 def Update(name):
 
-    scorePlayer = ((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(time.time()-begin))/10
+    scorePlayer = ((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)
     score= "select score from users where name='%s'" %(name)
     cursor.execute(score)
     scoreBefore = cursor.fetchone()
@@ -215,106 +217,6 @@ def Update(name):
     mydb.commit()
     messagebox.showinfo("Information","Score Update")
 
-    
-
-# shoot #
-
-class shoot:
-    def __init__(self, name):
-        self.name = name
-        self.x = -10
-        self.y = -10
-        self.vx = 5
-
-## Gravity ##
-
-class point:
-    def __init__(self, name):
-        self.name = name
-        self.x = 25
-        self.y = 775
-        self.vx = 0
-        self.vy = 0
-        self.ax = 0
-        self.ay = 0.5
-        self.draw = 0
-        self.etat = 1
-        self.bullet = [shoot(0), shoot(1), shoot(2), shoot(3), shoot(4)]
-        self.nb = 0
-        self.timer = 0
-        self.score = 0
-        self.hit = 0
-        self.hp = [PhotoImage(file="images/hp1.png"), PhotoImage(file="images/hp2.png"), PhotoImage(file="images/hp3.png"), PhotoImage(file="images/hp4.png"), PhotoImage(file="images/hp5.png"), PhotoImage(file="images/hp6.png")]
-        self.life = 3
-
-player1 = point(0)
-player1.x = 50
-
-player2 = point(1)
-player2.x = 1850
-
-
-hp_player1 = canvas.create_rectangle(0, 0, 0, 0)
-hp_player2 = canvas.create_rectangle(0, 0, 0, 0)
-life_player1 = [canvas.create_rectangle(0, 0, 0, 0), canvas.create_rectangle(0, 0, 0, 0), canvas.create_rectangle(0, 0, 0, 0)]
-life_player2 = [canvas.create_rectangle(0, 0, 0, 0), canvas.create_rectangle(0, 0, 0, 0), canvas.create_rectangle(0, 0, 0, 0)]
-
-
-class box:
-    def __init__(self, name):
-        self.name = name
-        self.x = 0
-        self.y = 0
-        self.cx = 0
-        self.cy = 0
-        self.length = 0
-
-plateform = []
-plateform.append(box(0))
-plateform[0].x = 1200
-plateform[0].y = 725
-plateform[0].cx = 1500
-plateform[0].cy = 750
-
-
-plateform.append(box(1))
-plateform[1].x = 250
-plateform[1].y = 725
-plateform[1].cx = 550
-plateform[1].cy = 750
-
-plateform.append(box(2))
-plateform[2].x = 725
-plateform[2].y = 525
-plateform[2].cx = 1025
-plateform[2].cy = 550
-
-# On crée l'espaces tir
-
-class shoot:
-    def __init__(self, name):
-        self.name = name
-        self.x = 0
-        self.y = 0
-        self.vx = 5
-        self.draw = canvas.create_oval(0, 0, 0, 0, fill = "white")
-
-player1.bullet[0].draw = canvas.create_oval(0, 0, 0, 0, fill = "white")
-player1.bullet[1].draw = canvas.create_oval(0, 0, 0, 0, fill = "white")
-player1.bullet[2].draw = canvas.create_oval(0, 0, 0, 0, fill = "white")
-player1.bullet[3].draw = canvas.create_oval(0, 0, 0, 0, fill = "white")
-player1.bullet[4].draw = canvas.create_oval(0, 0, 0, 0, fill = "white")
-player2.bullet[0].draw = canvas.create_oval(0, 0, 0, 0, fill = "white")
-player2.bullet[1].draw = canvas.create_oval(0, 0, 0, 0, fill = "white")
-player2.bullet[2].draw = canvas.create_oval(0, 0, 0, 0, fill = "white")
-player2.bullet[3].draw = canvas.create_oval(0, 0, 0, 0, fill = "white")
-player2.bullet[4].draw = canvas.create_oval(0, 0, 0, 0, fill = "white")
-
-player1.timer = time.time()
-
-# Score
-score1 = canvas.create_text(100, 725, text="0")
-score2 = canvas.create_text(1820, 725, text="0")
 
 
 def gravity():
