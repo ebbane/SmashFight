@@ -31,6 +31,10 @@ def PlayGame():
     # Réinitialisation  
     canvas.delete(ALL)
 
+    for i in range(5):
+        player1.bullet[i].y = -10
+        player2.bullet[i].y = -10
+
     # Mise en place du fond d'écran pendant la partie
     canvas.create_image(960, 540, image=background)
     canvas.create_rectangle(1200,750,1500,725, fill="brown")
@@ -70,8 +74,8 @@ def HomePage():
     player2.life = 3
     player1.hit = 0
     player2.hit = 0
-    player1.x = 25
-    player2.x = 1875
+    player1.x = 50
+    player2.x = 1850
     canvas.delete(ALL)
     canvas.create_image(960, 540, image=homeBackground)
 
@@ -117,9 +121,16 @@ def EquipmentsScreen():
     canvas.delete(ALL)
     canvas.create_image(960, 540, image=background)
     canvas.create_image(960, 540, image=back)
-    canvas.create_image(900, 200, image=equipments)
+    canvas.create_image(900, 80, image=equipments)
+    canvas.create_image(300, 650, image=playerOne)
+    canvas.create_image(300, 250, image=playerTWo)
 
-    
+    canvas.create_image(300, 400, image=shootSpeed)
+    canvas.create_image(1300, 400, image=movementSpeed)
+    canvas.create_image(800, 400, image=jumpSpeed)
+    canvas.create_image(300, 800, image=shootSpeed)
+    canvas.create_image(1300, 800, image=movementSpeed)
+    canvas.create_image(800, 800, image=jumpSpeed)
 
     canvas.create_image(1730, 200, image=soon)
     canvas.create_image(1740, 400, image=player4)
@@ -131,41 +142,105 @@ def EquipmentsScreen():
     ## BUTTON ##
     HomeButton = Button(tk, image = home , command = HomePage)
     canvas.create_window(150, 60, window=HomeButton )
+    
+    # player 2
+    LessButton = Button(tk, image = less , command = lambda : init_vitesse_balle(-1, player2))
+    canvas.create_window(180, 900, window=LessButton)
+
+    MoreButton = Button(tk, image = more , command = lambda : init_vitesse_balle(1, player2))
+    canvas.create_window(420, 900, window=MoreButton)
+
+    LessButton = Button(tk, image = less, command = lambda : init_jump(-1,player2))
+    canvas.create_window(680, 900, window=LessButton)
+
+    MoreButton = Button(tk, image = more, command = lambda : init_jump(1,player2))
+    canvas.create_window(920, 900, window=MoreButton)
+
+    LessButton = Button(tk, image = less, command = lambda : init_movement(-1,player2))
+    canvas.create_window(1180, 900, window=LessButton)
+
+    MoreButton = Button(tk, image = more, command = lambda : init_movement(1,player2))
+    canvas.create_window(1420, 900, window=MoreButton)
 
 
+    #  player 1
+    LessButton = Button(tk, image = less , command = lambda : init_vitesse_balle(-1,player1))
+    canvas.create_window(180, 500, window=LessButton)
+
+    MoreButton = Button(tk, image = more , command = lambda : init_vitesse_balle(1, player1))
+    canvas.create_window(420, 500, window=MoreButton)
+
+    LessButton = Button(tk, image = less, command = lambda : init_jump(-1,player1))
+    canvas.create_window(680, 500, window=LessButton)
+
+    MoreButton = Button(tk, image = more, command = lambda : init_jump(1,player1))
+    canvas.create_window(920, 500, window=MoreButton)
+
+    LessButton = Button(tk, image = less, command = lambda : init_movement(-1,player1))
+    canvas.create_window(1180, 500, window=LessButton)
+
+    MoreButton = Button(tk, image = more, command = lambda : init_movement(1,player1))
+    canvas.create_window(1420, 500, window=MoreButton)
+
+
+
+# #######################################################     Page de fin   ##############################################
 def sigmoid(x):
     return(1/(1+np.exp(-0.1*x)))
 
-# #######################################################     Page de fin   ##############################################
-
-
-def GameOver (winner):
+def GameOver (winner, player):
     global begin, fin
     canvas.delete(ALL)
 
     canvas.create_image(960, 540, image=background)
     canvas.create_image(960, 540, image=blackVeil)
     canvas.create_text(960, 250, fill="white", font="Times 100 bold", text="Winner is : " + winner)
-    # canvas.create_text(960, 400, fill="white", font="Times 50 bold", text="Score : " + str((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit))
-    canvas.create_text(960, 400, fill="white", font="Times 50 bold", text="Score : " + str(((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/10))
+    if(player == player1):
+        if(player1.vx + player1.bullet[0].vx + player1.newVy > player2.vx + player2.bullet[0].vx + player2.newVy):
+            canvas.create_text(960, 400, fill="white", font="Times 50 bold", text="Score : " + str(((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/20))
+        elif(player1.vx + player1.bullet[0].vx + player1.newVy == player2.vx + player2.bullet[0].vx + player2.newVy):
+            canvas.create_text(960, 400, fill="white", font="Times 50 bold", text="Score : " + str(((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/10))
+        else:
+            canvas.create_text(960, 400, fill="white", font="Times 50 bold", text="Score : " + str(((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/5))
+    else:
+        if(player1.vx + player1.bullet[0].vx + player1.newVy > player2.vx + player2.bullet[0].vx + player2.newVy):
+            canvas.create_text(960, 400, fill="white", font="Times 50 bold", text="Score : " + str(((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/5))
+        elif(player1.vx + player1.bullet[0].vx + player1.newVy == player2.vx + player2.bullet[0].vx + player2.newVy):
+            canvas.create_text(960, 400, fill="white", font="Times 50 bold", text="Score : " + str(((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/10))
+        else:
+            canvas.create_text(960, 400, fill="white", font="Times 50 bold", text="Score : " + str(((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/20))
     
     ButtonQuitter = Button(tk, bg='#BB0D0D', image = quit, command = tk.destroy)
     canvas.create_window(500, 650, window=ButtonQuitter)
 
-    ButtonRegister = Button(tk, bg='#07079A', image = records, command = Records)
+    ButtonRegister = Button(tk, bg='#07079A', image = records, command = lambda : Records(player))
     canvas.create_window(1350, 650, window=ButtonRegister)
-
     tk.button()
 
 
-def Records():
+def Records(player):
 
     canvas.delete(ALL)
     name = StringVar()
     HomeButton = Button(tk, image = home , command = HomePage)
     canvas.create_window(150, 60, window=HomeButton )
 
-    score = (((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/10)
+    if(player == player1):
+        if(player1.vx + player1.bullet[0].vx + player1.newVy > player2.vx + player2.bullet[0].vx + player2.newVy):
+            score = ((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/20
+        elif(player1.vx + player1.bullet[0].vx + player1.newVy == player2.vx + player2.bullet[0].vx + player2.newVy):
+            score = ((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/10
+        else:
+            score = ((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/5
+
+    else:
+        if(player1.vx + player1.bullet[0].vx + player1.newVy > player2.vx + player2.bullet[0].vx + player2.newVy):
+            score = ((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/20
+        elif(player1.vx + player1.bullet[0].vx + player1.newVy == player2.vx + player2.bullet[0].vx + player2.newVy):
+            score = ((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/10
+        else:
+            score = ((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/5
+    
     canvas.create_image(960, 540, image=background)
     canvas.create_image(960, 540, image=blackVeil)
 
@@ -199,7 +274,7 @@ def Register(winnerName, scorePlayer):
         dbname=i[0]
     if(name == dbname):
         messagebox.askokcancel("Information","Record Already exists. We will do an update")
-        Update(name)
+        Update(name, scorePlayer)
     else:    
         Insert="Insert into users(name,score) values('%s','%s')" %(name,score)
         cursor.execute(Insert)
@@ -208,9 +283,23 @@ def Register(winnerName, scorePlayer):
         
       
 
-def Update(name):
+def Update(name, scorePlayer):
 
-    scorePlayer = (((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/10)
+    # if(player == player1):
+    #     if(player1.vx + player1.bullet[0].vx + player1.newVy > player2.vx + player2.bullet[0].vx + player2.newVy):
+    #         scorePlayer = (((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/10)/2
+    #     elif(player1.vx + player1.bullet[0].vx + player1.newVy == player2.vx + player2.bullet[0].vx + player2.newVy):
+    #         scorePlayer = (((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/10)
+    #     else:
+    #         scorePlayer = (((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/10)*2
+
+    # else:
+    #     if(player1.vx + player1.bullet[0].vx + player1.newVy > player2.vx + player2.bullet[0].vx + player2.newVy):
+    #         scorePlayer = (((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/10)*2
+    #     elif(player1.vx + player1.bullet[0].vx + player1.newVy == player2.vx + player2.bullet[0].vx + player2.newVy):
+    #         scorePlayer = (((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/10)
+    #     else:
+    #         scorePlayer = (((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/10)/2
     score= "select score from users where name='%s'" %(name)
     cursor.execute(score)
     scoreBefore = cursor.fetchone()
@@ -301,12 +390,12 @@ def control():
 
     if(player1.etat == 1):
         if (keyboard.is_pressed("z")):
-            player1.vy = -15
+            player1.vy = -player1.newVy
             player1.etat = 0
     if keyboard.is_pressed("d"):
-        player1.x += 5
+        player1.x += player1.vx
     if keyboard.is_pressed("q"):
-        player1.x -= 5
+        player1.x -= player1.vx
     if keyboard.is_pressed("s"):
         player1.y += 25
     if (keyboard.is_pressed("space")) and (time.time()-player1.timer >= 0.35):
@@ -320,12 +409,12 @@ def control():
 
     if(player2.etat == 1):
         if keyboard.is_pressed("up"):
-            player2.vy = -15
+            player2.vy = -player2.newVy
             player2.etat = 0
     if keyboard.is_pressed("right"):
-        player2.x += 5
+        player2.x += player2.vx
     if keyboard.is_pressed("left"):
-        player2.x -= 5
+        player2.x -= player2.vx
     if keyboard.is_pressed("down"):
         player2.y += 25
     if (keyboard.is_pressed("enter")) and (time.time()-player2.timer >= 0.35):
@@ -369,9 +458,9 @@ def draw():
 def main():
     global blackVeil, stop
     if(player1.life == 0):
-        GameOver("player2")
+        GameOver("player 2", player2)
     elif(player2.life == 0):
-        GameOver("player1")
+        GameOver("player 1", player1)
     else:
         if(stop == 1):
             animate()

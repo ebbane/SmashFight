@@ -19,8 +19,9 @@ class point:
         self.name = name
         self.x = 25
         self.y = 775
-        self.vx = 0
+        self.vx = 5
         self.vy = 0
+        self.newVy = 15
         self.ax = 0
         self.ay = 0.5
         self.draw = 0
@@ -101,3 +102,46 @@ player1.timer = time.time()
 # Score
 score1 = canvas.create_text(100, 725, text="0")
 score2 = canvas.create_text(1820, 725, text="0")
+
+bullet_speed = 0
+jump_speed = 0
+
+# Valeurs
+def init_vitesse_players(val):
+    pass
+
+def init_vitesse_balle(val, player):
+    global bullet_speed
+    for i in range(5):
+        player.bullet[i].vx += val
+        if(player.bullet[i].vx <= 1):
+            player.bullet[i].vx = 1
+    canvas.delete(bullet_speed)
+    if (player == player2):
+        bullet_speed = canvas.create_text(300, 900, font="Times, 50", text=player2.bullet[0].vx, fill = "White")
+    else :
+        bullet_speed = canvas.create_text(300, 500, font="Times, 50", text=player1.bullet[0].vx, fill = "White")
+
+        
+def init_jump(val, player):
+    global jump_speed
+    player.newVy += val
+    if(player.newVy <= 1):
+        player.newVy = 1
+    canvas.delete(jump_speed)
+    if (player == player1):
+        jump_speed = canvas.create_text(800, 500, font="Times, 50", text=player1.newVy, fill = "White")
+    else :
+        jump_speed = canvas.create_text(800, 900, font="Times, 50", text=player2.newVy, fill = "White")
+
+
+def init_movement(val, player):
+    global jump_speed
+    player.vx += val
+    if(player.vx <= 1):
+        player.vx = 1
+    canvas.delete(jump_speed)
+    if (player == player1):
+        jump_speed = canvas.create_text(1300, 500, font="Times, 50", text=player1.vx, fill = "White")
+    else :
+        jump_speed = canvas.create_text(1300, 900, font="Times, 50", text=player2.vx, fill = "White")
