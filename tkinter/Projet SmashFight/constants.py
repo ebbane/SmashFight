@@ -27,10 +27,11 @@ highScores = PhotoImage(file="images/High Scores.png")
 # Page d'instruction
 blackVeil = PhotoImage(file="images/fondunoir.png")
 home = PhotoImage(file="images/Home.png")
-
+backgroundIstruction = PhotoImage(file="images/instructionBackground.png")
 
 # Page d'equipements
-
+soon = PhotoImage(file="images/soon.png")
+back = PhotoImage(file="images/reserve.png")
 player4 = PhotoImage(file="images/player4.png")
 player5 = PhotoImage(file="images/player5.png")
 playerName = PhotoImage(file="images/John.png")

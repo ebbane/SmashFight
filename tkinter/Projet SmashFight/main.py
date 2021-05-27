@@ -7,6 +7,8 @@ from highScores import *
 from constants import *
 import numpy as np
 from players import * 
+# from UDP import Connectitivity
+import socket 
 
 
 stop = 1
@@ -103,7 +105,7 @@ def InstructionsScreen():
     canvas.delete(ALL)
     canvas.create_image(960, 540, image=background)
     canvas.create_image(960, 540, image=blackVeil)
-    canvas.create_image(960, 200, image=instructions)  
+    canvas.create_image(960, 540, image=backgroundIstruction)
 
     HomeButton = Button(tk, image = home , command = HomePage)
     canvas.create_window(150, 60, window=HomeButton )
@@ -114,13 +116,16 @@ def EquipmentsScreen():
 
     canvas.delete(ALL)
     canvas.create_image(960, 540, image=background)
-    canvas.create_image(960, 540, image=blackVeil)
+    canvas.create_image(960, 540, image=back)
     canvas.create_image(900, 200, image=equipments)
-    canvas.create_image(730, 500, image=player4)
-    canvas.create_image(1115, 500, image=player5)
 
-    canvas.create_image(700, 700, image=playerName)
-    canvas.create_image(1150, 700, image=playerName2)
+    
+
+    canvas.create_image(1730, 200, image=soon)
+    canvas.create_image(1740, 400, image=player4)
+    canvas.create_image(1750, 550, image=playerName)
+    canvas.create_image(1740, 750, image=player5)
+    canvas.create_image(1750, 900, image=playerName2)
 
 
     ## BUTTON ##
@@ -141,8 +146,8 @@ def GameOver (winner):
     canvas.create_image(960, 540, image=background)
     canvas.create_image(960, 540, image=blackVeil)
     canvas.create_text(960, 250, fill="white", font="Times 100 bold", text="Winner is : " + winner)
-    canvas.create_text(960, 400, fill="white", font="Times 50 bold", text="Score : " + str((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit))
-    # canvas.create_text(960, 400, fill="white", font="Times 50 bold", text="Score : " + str(((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/10))
+    # canvas.create_text(960, 400, fill="white", font="Times 50 bold", text="Score : " + str((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit))
+    canvas.create_text(960, 400, fill="white", font="Times 50 bold", text="Score : " + str(((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/10))
     
     ButtonQuitter = Button(tk, bg='#BB0D0D', image = quit, command = tk.destroy)
     canvas.create_window(500, 650, window=ButtonQuitter)
@@ -160,7 +165,7 @@ def Records():
     HomeButton = Button(tk, image = home , command = HomePage)
     canvas.create_window(150, 60, window=HomeButton )
 
-    score = ((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)
+    score = (((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/10)
     canvas.create_image(960, 540, image=background)
     canvas.create_image(960, 540, image=blackVeil)
 
@@ -205,7 +210,7 @@ def Register(winnerName, scorePlayer):
 
 def Update(name):
 
-    scorePlayer = ((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)
+    scorePlayer = (((player1.life-1)*5+5-player1.hit+(player2.life-1)*5+5-player2.hit)*2*int(10*sigmoid(fin-begin))/10)
     score= "select score from users where name='%s'" %(name)
     cursor.execute(score)
     scoreBefore = cursor.fetchone()
@@ -359,6 +364,8 @@ def draw():
     timer = canvas.create_text(960, 100, font="Times, 50", text=str(int(time.time()-begin)), fill="white")
     fin = time.time()
 
+        
+
 def main():
     global blackVeil, stop
     if(player1.life == 0):
@@ -373,6 +380,7 @@ def main():
             control()
             draw()
     tk.after(10, main)
+
 
 HomePage()
 tk.mainloop()
