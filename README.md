@@ -11,6 +11,8 @@ Ce dépot concerne l'équipe 07 composé d'Antoine MACHEDA, et Ebbane DIET.
 
 Vous trouverez dans ce dossier le dossier exe qui contient l'exécutable du jeu ainsi que le dossier SamshFight qui comprend le code source du jeu et ses différentes fonctionnalités et le fichier database.py qui vous permettra d'obtenir une base de données et une table conforme à celle requise.
 
+Vour trouverez dans SmashFight/images/ le fichier app_py.png qui correspond a la partie du code écrit sur arcade-stick-master pour l'envoie de socket via docker.
+
 
 ## Démarrer
 
