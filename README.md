@@ -1,8 +1,8 @@
 # Projet logiciel Smash Fight
 
-<a href="https://github.com/maxencele2001/ProjetTechnoWeb">
-    <img src="SmashFight/main/SmashFight/images/ref.png)" alt="exemple" width="800" height="600">
-  </a>
+<a href="https://github.com/ebbane/SmashFight">
+    <img src="SmashFight/images/ref.png)" alt="exemple">
+</a>
 
 Projet d'étude de deuxième année de Bachelor | Informatique Ingésup du Campus YNOV Lyon.
 Ce projet permet l’évaluation des compétences acquises grâce aux modules de l’UF  « Développement Logiciels » et « Base de données ». .
