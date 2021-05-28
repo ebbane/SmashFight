@@ -1,3 +1,2 @@
 # SmashFight
-Projet Logicil 2021 - Ynov Campus Lyon | B2 informatique 
-# 
+Projet Logiciel 2021 - Ynov Campus Lyon | B2 informatique 
